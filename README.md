@@ -43,7 +43,12 @@ func main() {
 
 	fmt.Println(result)
 
-	fmt.Println(parser.GetFunction("cube"))
+	// Definition of func
+	fmt.Println(parser.GetDefinition("cube"))
+	
+	// Address of func
+	addr := parser.GetFunction("cube")
+	fmt.Println(addr)
 }
 ```
 
