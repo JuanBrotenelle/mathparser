@@ -62,6 +62,15 @@ func (p *Parser) loadFunctions() {
 		"atanh": func(args ...interface{}) (interface{}, error) {
 			return math.Atanh(args[0].(float64)), nil
 		},
+		"cot": func(args ...interface{}) (interface{}, error) {
+			return math.Cos(args[0].(float64)) / math.Sin(args[0].(float64)), nil
+		},
+		"sec": func(args ...interface{}) (interface{}, error) {
+			return 1 / math.Cos(args[0].(float64)), nil
+		},
+		"csc": func(args ...interface{}) (interface{}, error) {
+			return 1 / math.Sin(args[0].(float64)), nil
+		},
 		"log": func(args ...interface{}) (interface{}, error) {
 			return math.Log(args[0].(float64)), nil
 		},
@@ -113,10 +122,16 @@ func (p *Parser) AddFunction(name, definition string, function govaluate.Express
 }
 
 // GetFunction return value will be a function
-func (p *Parser) GetFunction(name string) string {
+func (p *Parser) GetDefinition(name string) string {
 	p.mu.RLock()
 	defer p.mu.RUnlock()
 	return p.definitions[name]
+}
+
+func (p *Parser) GetFunction(name string) govaluate.ExpressionFunction {
+	p.mu.RLock()
+	defer p.mu.RUnlock()
+	return p.functions[name]
 }
 
 // Parse to parse a string
